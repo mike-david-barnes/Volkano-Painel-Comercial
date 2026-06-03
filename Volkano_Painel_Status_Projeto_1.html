@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volkano · Painel do Projeto — Estruturação Comercial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#F26522;
+    --orange-deep:#cf4f17;
+    --orange-tint:#fdf1ea;
+    --ink:#1b1714;
+    --ink-soft:#726a62;
+    --paper:#faf8f5;
+    --card:#ffffff;
+    --line:#ece6df;
+    --done:#F26522;
+    --future:#3a4a55;
+    --future-tint:#eef2f4;
+    --cut:#b23a26;
+    --cut-tint:#fbeeeb;
+    --shadow:0 1px 2px rgba(27,23,20,.04), 0 8px 24px rgba(27,23,20,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased}
+  body{
+    font-family:'Archivo','Calibri',system-ui,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.45;
+    padding:40px 24px 64px;
+  }
+  .wrap{max-width:1180px;margin:0 auto}
+
+  /* ---------- HEADER ---------- */
+  header{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    flex-wrap:wrap;gap:24px;
+    border-bottom:3px solid var(--ink);
+    padding-bottom:22px;margin-bottom:30px;
+    animation:fade .6s ease both;
+  }
+  .brand{display:flex;align-items:center;gap:12px}
+  .mark{width:34px;height:34px;flex:none}
+  .wordmark{font-weight:900;font-size:25px;letter-spacing:.02em;line-height:1}
+  .wordmark span{color:var(--orange)}
+  .brand small{display:block;font-size:9.5px;font-weight:700;letter-spacing:.32em;color:var(--ink-soft);margin-top:3px}
+  .htitle{text-align:right}
+  .htitle .kicker{font-size:10.5px;font-weight:800;letter-spacing:.22em;color:var(--orange);text-transform:uppercase}
+  .htitle h1{font-size:27px;font-weight:800;letter-spacing:-.01em;margin-top:4px;line-height:1.05}
+  .htitle .meta{font-size:12px;color:var(--ink-soft);margin-top:7px;font-weight:500}
+
+  /* ---------- STAT STRIP ---------- */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:34px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);animation:fade .6s ease both}
+  .stat:nth-child(1){animation-delay:.05s}
+  .stat:nth-child(2){animation-delay:.1s}
+  .stat:nth-child(3){animation-delay:.15s}
+  .stat:nth-child(4){animation-delay:.2s}
+  .stat .n{font-size:30px;font-weight:900;letter-spacing:-.02em;line-height:1}
+  .stat .n.ok{color:var(--orange)}
+  .stat .l{font-size:11px;font-weight:600;color:var(--ink-soft);margin-top:6px;line-height:1.3}
+  .bar{height:6px;border-radius:6px;background:var(--line);margin-top:12px;overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:6px;background:var(--orange);width:0;animation:grow 1.1s .3s cubic-bezier(.4,0,.1,1) both}
+  .bar.half i{background:var(--future)}
+
+  /* ---------- SECTION TITLES ---------- */
+  .sec-h{display:flex;align-items:center;gap:12px;margin:42px 0 18px}
+  .sec-h .tag{font-size:13px;font-weight:900;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex:none;color:#fff}
+  .sec-h h2{font-size:19px;font-weight:800;letter-spacing:-.01em}
+  .sec-h .sub{font-size:12px;color:var(--ink-soft);font-weight:600;margin-left:2px}
+  .sec-h .rule{flex:1;height:1px;background:var(--line)}
+
+  /* ---------- TIMELINE RIBBON ---------- */
+  .ribbon{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 16px 18px;box-shadow:var(--shadow);overflow-x:auto}
+  .track{display:flex;min-width:880px;gap:6px}
+  .wk{flex:1;border-radius:11px;padding:12px 10px 13px;position:relative;border:1px solid transparent}
+  .wk.p1{background:var(--orange-tint)}
+  .wk.p2{background:var(--future-tint)}
+  .wk.now{outline:2px solid var(--orange);outline-offset:1px;background:#fff}
+  .wk .ph{font-size:8.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.55}
+  .wk.p1 .ph{color:var(--orange-deep)}
+  .wk.p2 .ph{color:var(--future)}
+  .wk .s{display:flex;align-items:center;gap:7px;margin-top:7px}
+  .dot{width:15px;height:15px;border-radius:50%;flex:none;display:grid;place-items:center}
+  .dot.done{background:var(--orange)}
+  .dot.done::after{content:"";width:5px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-1px)}
+  .dot.fut{background:#fff;border:2px solid var(--future);opacity:.6}
+  .dot.cur{background:var(--orange);box-shadow:0 0 0 0 rgba(242,101,34,.5);animation:pulse 1.8s infinite}
+  .wk .sn{font-size:13px;font-weight:900}
+  .wk .dt{font-size:9.5px;color:var(--ink-soft);font-weight:600;margin-top:5px}
+  .wk .fc{font-size:10px;font-weight:600;margin-top:3px;line-height:1.25}
+  .wk .ms{margin-top:9px;font-size:8.5px;font-weight:800;letter-spacing:.04em;background:var(--ink);color:#fff;border-radius:5px;padding:3px 5px;display:inline-block}
+  .wk.p2 .ms{background:var(--future)}
+  .now-flag{position:absolute;top:-9px;right:8px;background:var(--orange);color:#fff;font-size:8px;font-weight:900;letter-spacing:.08em;padding:2px 6px;border-radius:5px}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;padding-top:13px;border-top:1px solid var(--line);font-size:10.5px;font-weight:600;color:var(--ink-soft)}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:-1px;margin-right:5px}
+
+  /* ---------- DELIVERABLE CARDS ---------- */
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:13px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px 17px;box-shadow:var(--shadow);position:relative;animation:fade .5s ease both}
+  .card.fut{border-top:3px solid var(--future)}
+  .card.done{border-top:3px solid var(--orange)}
+  .card .ch{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:11px}
+  .card .ck{font-size:14px;font-weight:900}
+  .card.done .ck{color:var(--orange)}
+  .card.fut .ck{color:var(--future)}
+  .card .cd{font-size:9.5px;font-weight:700;color:var(--ink-soft)}
+  .card .cn{font-size:12px;font-weight:800;letter-spacing:.02em;margin-bottom:10px;line-height:1.25}
+  .card ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+  .card li{font-size:11px;line-height:1.35;padding-left:16px;position:relative;color:#2c2722}
+  .card.done li::before{content:"";position:absolute;left:0;top:5px;width:5px;height:8px;border:solid var(--orange);border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .card.fut li::before{content:"";position:absolute;left:1px;top:5px;width:6px;height:6px;border-radius:50%;border:1.5px solid var(--future)}
+  .card .here{position:absolute;top:-10px;right:12px;background:var(--orange);color:#fff;font-size:8px;font-weight:900;letter-spacing:.06em;padding:3px 7px;border-radius:6px}
+
+  /* ---------- CUT BANNER ---------- */
+  .cut{background:var(--cut-tint);border:1px solid #f0d3cc;border-left:5px solid var(--cut);border-radius:14px;padding:18px 22px;display:flex;gap:18px;align-items:flex-start;animation:fade .5s ease both}
+  .cut .x{width:30px;height:30px;border-radius:8px;background:var(--cut);color:#fff;display:grid;place-items:center;font-size:16px;font-weight:900;flex:none}
+  .cut .cn{font-size:13.5px;font-weight:800}
+  .cut .cn s{color:var(--cut)}
+  .cut p{font-size:11.5px;color:#5a4a45;margin-top:6px;max-width:760px;line-height:1.45}
+  .cut .meta-pill{display:inline-block;margin-top:9px;font-size:10px;font-weight:800;letter-spacing:.04em;color:var(--cut);background:#fff;border:1px solid #f0d3cc;border-radius:20px;padding:3px 11px}
+
+  /* ---------- FOOTER ---------- */
+  footer{margin-top:46px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--ink-soft);font-weight:600}
+  footer b{color:var(--ink)}
+
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes grow{from{width:0}}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(242,101,34,.5)}70%{box-shadow:0 0 0 9px rgba(242,101,34,0)}100%{box-shadow:0 0 0 0 rgba(242,101,34,0)}}
+
+  @media(max-width:860px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .grid4,.grid5{grid-template-columns:repeat(2,1fr)}
+    .htitle{text-align:left}
+    header{align-items:flex-start}
+  }
+  @media print{
+    body{padding:0;background:#fff}
+    .card,.stat,.ribbon{box-shadow:none}
+    .ribbon{overflow:visible}
+    .track{min-width:0}
+    *{animation:none!important}
+    .bar i{width:100%!important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 40 40" fill="none">
+        <path d="M6 11 L20 31 L34 11 L27 11 L20 22 L13 11 Z" fill="#F26522"/>
+        <path d="M16 6 L24 6 L20 13 Z" fill="#1b1714"/>
+      </svg>
+      <div>
+        <div class="wordmark">VOL<span>KANO</span></div>
+        <small>EQUIPAMENTOS FITNESS</small>
+      </div>
+    </div>
+    <div class="htitle">
+      <div class="kicker">Projeto de Estruturação Comercial</div>
+      <h1>Painel do Projeto</h1>
+      <div class="meta">Michael Barnes para João Pedro · 17/04 – 16/06/2026 · atualizado em 03/06/2026</div>
+    </div>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="n ok">100%</div>
+      <div class="l">Fase 1 — Desenvolvimento<br>concluída (S1 a S4)</div>
+      <div class="bar"><i style="--w:100%;width:100%"></i></div>
+    </div>
+    <div class="stat">
+      <div class="n">18</div>
+      <div class="l">Entregáveis produzidos<br>e validados</div>
+    </div>
+    <div class="stat">
+      <div class="n" style="color:var(--future)">Fase 2</div>
+      <div class="l">Implementação em andamento<br>(liderada pelo João)</div>
+      <div class="bar half"><i style="width:55%"></i></div>
+    </div>
+    <div class="stat">
+      <div class="n">S7</div>
+      <div class="l">Semana atual · rollout<br>+ início de BI</div>
+    </div>
+  </div>
+
+  <!-- TIMELINE RIBBON -->
+  <div class="sec-h">
+    <span class="tag" style="background:var(--ink)">↪</span>
+    <h2>Linha do tempo</h2>
+    <span class="sub">2 fases · 9 semanas · 7 marcos</span>
+    <span class="rule"></span>
+  </div>
+  <div class="ribbon">
+    <div class="track">
+      <div class="wk p1"><div class="ph">Fase 1 · Desenvolvimento</div><div class="s"><span class="dot done"></span><span class="sn">S1</span></div><div class="dt">17–24 abr</div><div class="fc">Fundação</div><span class="ms">M1 · Fundação</span></div>
+      <div class="wk p1"><div class="ph">Fase 1</div><div class="s"><span class="dot done"></span><span class="sn">S2</span></div><div class="dt">27 abr–01 mai</div><div class="fc">Funis + interfaces</div><span class="ms">M2 · Funis</span></div>
+      <div class="wk p1"><div class="ph">Fase 1</div><div class="s"><span class="dot done"></span><span class="sn">S3</span></div><div class="dt">04–08 mai</div><div class="fc">CRM + POPs + Proposta</div><span class="ms">M3 · CRM pronto</span></div>
+      <div class="wk p1"><div class="ph">Fase 1</div><div class="s"><span class="dot done"></span><span class="sn">S4</span></div><div class="dt">11–15 mai</div><div class="fc">Comissão + Playbook V3</div><span class="ms">M4 · Handoff F1</span></div>
+      <div class="wk p2"><div class="ph">Fase 2 · Implementação</div><div class="s"><span class="dot fut"></span><span class="sn">S5</span></div><div class="dt">18–22 mai</div><div class="fc">Treinamento</div></div>
+      <div class="wk p2"><div class="ph">Fase 2</div><div class="s"><span class="dot fut"></span><span class="sn">S6</span></div><div class="dt">25–29 mai</div><div class="fc">Migração Data Crazy</div><span class="ms">M5 · CRM produção</span></div>
+      <div class="wk p2 now"><span class="now-flag">HOJE</span><div class="ph">Fase 2</div><div class="s"><span class="dot cur"></span><span class="sn">S7</span></div><div class="dt">01–05 jun</div><div class="fc">Rollout + BI (setup)</div></div>
+      <div class="wk p2"><div class="ph">Fase 2</div><div class="s"><span class="dot fut"></span><span class="sn">S8</span></div><div class="dt">08–12 jun</div><div class="fc">Acompanhamento + BI</div><span class="ms">M6 · 1º ciclo</span></div>
+      <div class="wk p2"><div class="ph">Fase 2</div><div class="s"><span class="dot fut"></span><span class="sn">S9</span></div><div class="dt">15–16 jun</div><div class="fc">Revisão + handoff</div><span class="ms">M7 · Fim</span></div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--orange)"></i>Concluído</span>
+      <span><i style="background:var(--orange);box-shadow:0 0 0 3px rgba(242,101,34,.25)"></i>Semana atual</span>
+      <span><i style="background:#fff;border:2px solid var(--future)"></i>Por vir</span>
+      <span><i style="background:var(--ink);border-radius:3px"></i>Marco de validação (M)</span>
+    </div>
+  </div>
+
+  <!-- 1. ENTREGUE -->
+  <div class="sec-h">
+    <span class="tag" style="background:var(--orange)">✓</span>
+    <h2>O que já entregamos</h2>
+    <span class="sub">Fase 1 completa — base documental e estrutural da operação</span>
+    <span class="rule"></span>
+  </div>
+  <div class="grid4">
+    <div class="card done" style="animation-delay:.05s">
+      <div class="ch"><span class="ck">S1</span><span class="cd">17–24 abr</span></div>
+      <div class="cn">Fundação</div>
+      <ul>
+        <li>Diagnóstico Comercial + Avaliação</li>
+        <li>Organograma Comercial</li>
+        <li>Matriz de Responsabilidades (RACI V4)</li>
+        <li>Ritos e Rotinas V4 — Gerente + Coordenador</li>
+        <li>Processo de contratação (fluxo + ficha de avaliação / scorecard)</li>
+      </ul>
+    </div>
+    <div class="card done" style="animation-delay:.1s">
+      <div class="ch"><span class="ck">S2</span><span class="cd">27 abr–01 mai</span></div>
+      <div class="cn">Funis + interfaces</div>
+      <ul>
+        <li>Funil (pipeline) de pré-vendas — com prazo de resposta (SLA) de leads que chegam (inbound)</li>
+        <li>Funil de vendas — refinado sobre o Playbook V2</li>
+        <li>Funil de pós-vendas — cadência + NPS 9 + meta de 10% da base/mês</li>
+        <li>Interface Vendas × Produção / Logística</li>
+        <li>Interface Vendas × Financeiro (crédito, boleto, comissão, inadimplência)</li>
+      </ul>
+    </div>
+    <div class="card done" style="animation-delay:.15s">
+      <div class="ch"><span class="ck">S3</span><span class="cd">04–08 mai</span></div>
+      <div class="cn">CRM + POPs + Proposta</div>
+      <ul>
+        <li>POPs de todas as atividades (inclui desligamento de representante / offboarding)</li>
+        <li>Modelo de proposta comercial (tabela de preços por linha)</li>
+        <li>Configuração do Data Crazy (estrutura + campos + SLAs)</li>
+        <li>Automações: contrato → financeiro → pós-venda</li>
+      </ul>
+    </div>
+    <div class="card done" style="animation-delay:.2s">
+      <div class="ch"><span class="ck">S4</span><span class="cd">11–15 mai</span></div>
+      <div class="cn">Comissão, metas, cultura, Playbook</div>
+      <ul>
+        <li>Plano de comissionamento (remuneração-alvo / OTE por função) + meta individual por rep</li>
+        <li>Gestão de metas (cascateamento R$71M → rep/mês) + modelo de cobrança</li>
+        <li>Programa de reconhecimento e cultura (ranking, premiação, celebração)</li>
+        <li>Playbook de Vendas consolidado — V3</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2. NÃO SERÁ EXECUTADO -->
+  <div class="sec-h">
+    <span class="tag" style="background:var(--cut)">⃠</span>
+    <h2>O que decidimos não executar</h2>
+    <span class="sub">Tirado do escopo por decisão do cliente</span>
+    <span class="rule"></span>
+  </div>
+  <div class="cut">
+    <div class="x">✕</div>
+    <div>
+      <div class="cn"><s>Plano de incentivo para adoção do CRM pelos 19 representantes PJ antigos</s></div>
+      <p>Entregável que estava previsto na <b>S5</b>. Por decisão do cliente, não será produzido. A adesão dos 19 representantes ao Data Crazy permanece <b>voluntária</b>, sem programa estruturado de incentivo. A obrigatoriedade de uso do CRM segue valendo apenas para novos representantes e cargos CLT.</p>
+      <span class="meta-pill">FORA DO ESCOPO · S5</span>
+    </div>
+  </div>
+
+  <!-- 3. POR VIR -->
+  <div class="sec-h">
+    <span class="tag" style="background:var(--future)">→</span>
+    <h2>O que vem pela frente</h2>
+    <span class="sub">Fase 2 — Implementação · liderada pelo João, com apoio do Michael</span>
+    <span class="rule"></span>
+  </div>
+  <div class="grid5">
+    <div class="card fut" style="animation-delay:.05s">
+      <div class="ch"><span class="ck">S5</span><span class="cd">18–22 mai</span></div>
+      <div class="cn">Treinamento e alinhamento</div>
+      <ul>
+        <li>Apresentação do Playbook V3 a todo o time</li>
+        <li>Treinamento do Coordenador Externo (ritos, POPs, scorecard)</li>
+        <li>Treinamento das vendas internas (Inside Sales)</li>
+      </ul>
+    </div>
+    <div class="card fut" style="animation-delay:.1s">
+      <div class="ch"><span class="ck">S6</span><span class="cd">25–29 mai</span></div>
+      <div class="cn">Migração para Data Crazy</div>
+      <ul>
+        <li>Setup técnico completo</li>
+        <li>Importação de dados históricos (clientes, pedidos, reps)</li>
+        <li>Testes e ajustes de automação</li>
+      </ul>
+    </div>
+    <div class="card fut" style="animation-delay:.15s">
+      <span class="here">ESTAMOS AQUI</span>
+      <div class="ch"><span class="ck">S7</span><span class="cd">01–05 jun</span></div>
+      <div class="cn">Rollout + BI (setup)</div>
+      <ul>
+        <li>Início dos ritos (semanal, mensal, 1:1)</li>
+        <li>1º ciclo completo do funil de pré-vendas</li>
+        <li>Primeiras visitas de campo do Coordenador</li>
+        <li>Setup do BI: KPIs e primeiros painéis</li>
+      </ul>
+    </div>
+    <div class="card fut" style="animation-delay:.2s">
+      <div class="ch"><span class="ck">S8</span><span class="cd">08–12 jun</span></div>
+      <div class="cn">Acompanhamento + BI em produção</div>
+      <ul>
+        <li>Primeiros relatórios de funil do CRM</li>
+        <li>Ajustes em POPs com base no uso real</li>
+        <li>1º ciclo de 1:1 do gerente com cada vendedor</li>
+        <li>Primeira pesquisa de NPS do pós-vendas</li>
+        <li>Dashboards de gestão disponíveis</li>
+      </ul>
+    </div>
+    <div class="card fut" style="animation-delay:.25s">
+      <div class="ch"><span class="ck">S9</span><span class="cd">15–16 jun</span></div>
+      <div class="cn">Revisão e estabilização</div>
+      <ul>
+        <li>Retrospectiva dos 60 dias</li>
+        <li>Plano de ajustes de 30 dias</li>
+        <li>Passagem de bastão (handoff) final da consultoria</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div><b>Volkano Fitness</b> · Ijuí-RS · Estruturação da Operação Comercial</div>
+    <div>Preparado por <b>Michael Barnes</b> — Comercial Consciente · 03/06/2026</div>
+  </footer>
+
+</div>
+</body>
+</html>
